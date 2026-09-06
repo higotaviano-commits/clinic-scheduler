@@ -1,4 +1,4 @@
-package br.com.fiap.techchalleger.agendamentoservice;
+package br.com.fiap.techchallenge.agendamento;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
