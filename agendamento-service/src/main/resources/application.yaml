@@ -1,3 +1,25 @@
 spring:
   application:
     name: agendamento-service
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+jwt:
+  secret: ${JWT_SECRET:bXlTdXBlclNlY3JldEtleUZvckpXVDEyMzQ1Njc4OTA=}
+  expiration: ${JWT_EXPIRATION:3600000}
+
+app:
+  messaging:
+    exchange: consultas.exchange
+    routing-key:
+      criada: consulta.criada
+      atualizada: consulta.atualizada
