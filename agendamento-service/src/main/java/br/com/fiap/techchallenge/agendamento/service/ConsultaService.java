@@ -3,7 +3,7 @@ package br.com.fiap.techchallenge.agendamento.service;
 import br.com.fiap.techchallenge.agendamento.dto.request.ConsultaRequest;
 import br.com.fiap.techchallenge.agendamento.dto.request.ConsultaUpdateRequest;
 import br.com.fiap.techchallenge.agendamento.dto.response.ConsultaResponse;
-import br.com.fiap.techchallenge.agendamento.exception.ForbiddenOperationException;
+import br.com.fiap.techchallenge.agendamento.exception.OperacaoInvalidaException;
 import br.com.fiap.techchallenge.agendamento.exception.EntidadeNaoEncontradaException;
 import br.com.fiap.techchallenge.agendamento.messaging.ConsultaEventoDTO;
 import br.com.fiap.techchallenge.agendamento.model.*;
@@ -135,7 +135,7 @@ public class ConsultaService implements ConsultaUseCase {
                 && !Objects.equals(usuarioLogado.getId(), pacienteId);
 
         if (ehPacienteDeOutraConsulta) {
-            throw new ForbiddenOperationException("Paciente só pode visualizar as próprias consultas");
+            throw new OperacaoInvalidaException("Paciente só pode visualizar as próprias consultas");
         }
     }
 

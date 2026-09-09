@@ -40,8 +40,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtService.extractUsername(token);
                 String role = jwtService.extractRole(token);
 
-                // Diferente da referência (lista de authorities sempre vazia), aqui a role vira
-                // uma GrantedAuthority "ROLE_X", necessária para o @PreAuthorize dos controllers.
                 var authorities = role != null
                         ? List.of(new SimpleGrantedAuthority("ROLE_" + role))
                         : List.<SimpleGrantedAuthority>of();

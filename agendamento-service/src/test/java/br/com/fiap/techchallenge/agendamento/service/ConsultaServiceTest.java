@@ -4,14 +4,13 @@ import br.com.fiap.techchallenge.agendamento.dto.request.ConsultaRequest;
 import br.com.fiap.techchallenge.agendamento.dto.request.ConsultaUpdateRequest;
 import br.com.fiap.techchallenge.agendamento.dto.response.ConsultaResponse;
 import br.com.fiap.techchallenge.agendamento.exception.EntidadeNaoEncontradaException;
-import br.com.fiap.techchallenge.agendamento.exception.ForbiddenOperationException;
+import br.com.fiap.techchallenge.agendamento.exception.OperacaoInvalidaException;
 import br.com.fiap.techchallenge.agendamento.messaging.ConsultaEventoDTO;
 import br.com.fiap.techchallenge.agendamento.model.Consulta;
 import br.com.fiap.techchallenge.agendamento.model.Enfermeiro;
 import br.com.fiap.techchallenge.agendamento.model.Medico;
 import br.com.fiap.techchallenge.agendamento.model.Paciente;
 import br.com.fiap.techchallenge.agendamento.model.StatusConsulta;
-import br.com.fiap.techchallenge.agendamento.model.Usuario;
 import br.com.fiap.techchallenge.agendamento.repository.ConsultaRepository;
 import br.com.fiap.techchallenge.agendamento.repository.UsuarioRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -511,9 +510,9 @@ class ConsultaServiceTest {
         when(usuarioRepository.findByLogin("joao"))
                 .thenReturn(Optional.of(outroPaciente));
 
-        ForbiddenOperationException exception =
+        OperacaoInvalidaException exception =
                 assertThrows(
-                        ForbiddenOperationException.class,
+                        OperacaoInvalidaException.class,
                         () -> consultaService.findById(10L)
                 );
 
@@ -611,9 +610,9 @@ class ConsultaServiceTest {
         when(usuarioRepository.findByLogin("joao"))
                 .thenReturn(Optional.of(outroPaciente));
 
-        ForbiddenOperationException exception =
+        OperacaoInvalidaException exception =
                 assertThrows(
-                        ForbiddenOperationException.class,
+                        OperacaoInvalidaException.class,
                         () -> consultaService.findByPaciente(1L)
                 );
 

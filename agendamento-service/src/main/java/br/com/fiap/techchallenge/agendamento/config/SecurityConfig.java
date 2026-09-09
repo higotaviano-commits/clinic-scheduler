@@ -12,12 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Estrutura idêntica à referência (JWT stateless, filtro próprio antes do
- * UsernamePasswordAuthenticationFilter, tratamento de 401/403 em JSON cru). A única adição é
- * @EnableMethodSecurity, necessária para o @PreAuthorize nos controllers — a referência não tinha
- * controle de acesso por perfil, então não precisava disso.
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

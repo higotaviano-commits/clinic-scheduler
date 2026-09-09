@@ -2,7 +2,7 @@ package br.com.fiap.techchallenge.agendamento.service;
 
 import br.com.fiap.techchallenge.agendamento.dto.request.LoginRequest;
 import br.com.fiap.techchallenge.agendamento.dto.response.AuthResponse;
-import br.com.fiap.techchallenge.agendamento.exception.InvalidCredentialsException;
+import br.com.fiap.techchallenge.agendamento.exception.AutorizacaoInvalidaException;
 import br.com.fiap.techchallenge.agendamento.model.Usuario;
 import br.com.fiap.techchallenge.agendamento.repository.UsuarioRepository;
 import br.com.fiap.techchallenge.agendamento.usecase.AuthUseCase;
@@ -28,11 +28,11 @@ public class AuthService implements AuthUseCase {
     public AuthResponse authenticate(LoginRequest request) {
 
         Usuario usuario = usuarioRepository.findByLogin(request.login())
-                .orElseThrow(InvalidCredentialsException::new);
+                .orElseThrow(AutorizacaoInvalidaException::new);
 
         if (usuario.getSenha() == null ||
                 !passwordEncoder.matches(request.password(), usuario.getSenha())) {
-            throw new InvalidCredentialsException();
+            throw new AutorizacaoInvalidaException();
         }
 
         // Perfil derivado do tipo concreto (Medico/Enfermeiro/Paciente) e gravado no token

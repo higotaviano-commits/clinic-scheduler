@@ -3,10 +3,14 @@ package br.com.fiap.techchallenge.agendamento.exception;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.net.URI;
 import java.util.stream.Collectors;
@@ -23,12 +27,54 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ProblemDetail handleInvalidCredentials(InvalidCredentialsException ex) {
+    @ExceptionHandler(AutorizacaoInvalidaException.class)
+    public ProblemDetail handleInvalidCredentials(AutorizacaoInvalidaException ex) {
         ProblemDetail problem = ProblemDetail
                 .forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
         problem.setTitle("Credenciais inválidas");
         problem.setType(URI.create("https://api.hospital.com/errors/unauthorized"));
+        return problem;
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ProblemDetail handleMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
+        ProblemDetail problem = ProblemDetail
+                .forStatusAndDetail(
+                        HttpStatus.UNSUPPORTED_MEDIA_TYPE,
+                        "Tipo de conteúdo não suportado"
+                );
+
+        problem.setTitle("Tipo de mídia não suportado");
+        problem.setType(URI.create("https://api.hospital.com/errors/unsupported-media-type"));
+
+        return problem;
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ProblemDetail handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        ProblemDetail problem = ProblemDetail
+                .forStatusAndDetail(
+                        HttpStatus.METHOD_NOT_ALLOWED,
+                        "Método HTTP não permitido para este recurso"
+                );
+
+        problem.setTitle("Método não permitido");
+        problem.setType(URI.create("https://api.hospital.com/errors/method-not-allowed"));
+
+        return problem;
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ProblemDetail handleNoResourceFound(NoResourceFoundException ex) {
+        ProblemDetail problem = ProblemDetail
+                .forStatusAndDetail(
+                        HttpStatus.NOT_FOUND,
+                        "Recurso não encontrado"
+                );
+
+        problem.setTitle("Recurso não encontrado");
+        problem.setType(URI.create("https://api.hospital.com/errors/not-found"));
+
         return problem;
     }
 
@@ -41,9 +87,9 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
-    @ExceptionHandler({ForbiddenOperationException.class, AccessDeniedException.class})
+    @ExceptionHandler({OperacaoInvalidaException.class, AccessDeniedException.class})
     public ProblemDetail handleForbidden(RuntimeException ex) {
-        String detail = ex instanceof ForbiddenOperationException ? ex.getMessage() : "Sem permissão para acessar este recurso";
+        String detail = ex instanceof OperacaoInvalidaException ? ex.getMessage() : "Sem permissão para acessar este recurso";
         ProblemDetail problem = ProblemDetail
                 .forStatusAndDetail(HttpStatus.FORBIDDEN, detail);
         problem.setTitle("Acesso negado");
@@ -60,9 +106,29 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
 
         ProblemDetail problem = ProblemDetail
-                .forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, detail);
+                .forStatusAndDetail(HttpStatus.BAD_REQUEST, detail);
+
         problem.setTitle("Erro de validação");
-        problem.setType(URI.create("https://api.hospital.com/errors/validation"));
+        problem.setType(URI.create(
+                "https://api.hospital.com/errors/validation"
+        ));
+
+        return problem;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ProblemDetail handleMessageNotReadable(HttpMessageNotReadableException ex) {
+        ProblemDetail problem = ProblemDetail
+                .forStatusAndDetail(
+                        HttpStatus.BAD_REQUEST,
+                        "JSON inválido ou malformado"
+                );
+
+        problem.setTitle("Requisição inválida");
+        problem.setType(URI.create(
+                "https://api.hospital.com/errors/invalid-request"
+        ));
+
         return problem;
     }
 
