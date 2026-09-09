@@ -1,3 +1,24 @@
 spring:
+
   application:
     name: historico-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/historico_db
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  graphql:
+    graphiql:
+      enabled: true
+
+server:
+  port: 8082
+
+jwt:
+  secret: ${JWT_SECRET:bXlTdXBlclNlY3JldEtleUZvckpXVDEyMzQ1Njc4OTA=}
