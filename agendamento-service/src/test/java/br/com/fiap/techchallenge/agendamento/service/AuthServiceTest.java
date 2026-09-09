@@ -2,7 +2,7 @@ package br.com.fiap.techchallenge.agendamento.service;
 
 import br.com.fiap.techchallenge.agendamento.dto.request.LoginRequest;
 import br.com.fiap.techchallenge.agendamento.dto.response.AuthResponse;
-import br.com.fiap.techchallenge.agendamento.exception.InvalidCredentialsException;
+import br.com.fiap.techchallenge.agendamento.exception.AutorizacaoInvalidaException;
 import br.com.fiap.techchallenge.agendamento.model.Medico;
 import br.com.fiap.techchallenge.agendamento.model.Paciente;
 import br.com.fiap.techchallenge.agendamento.repository.UsuarioRepository;
@@ -104,7 +104,7 @@ class AuthServiceTest {
         LoginRequest request = new LoginRequest("usuario_inexistente", "123456");
 
         assertThrows(
-                InvalidCredentialsException.class,
+                AutorizacaoInvalidaException.class,
                 () -> authService.authenticate(request)
         );
 
@@ -124,7 +124,7 @@ class AuthServiceTest {
         LoginRequest request = new LoginRequest("dr_carlos", "senha_incorreta");
 
         assertThrows(
-                InvalidCredentialsException.class,
+                AutorizacaoInvalidaException.class,
                 () -> authService.authenticate(request)
         );
 
@@ -141,7 +141,7 @@ class AuthServiceTest {
                 .thenReturn(Optional.of(medico));
 
         assertThrows(
-                InvalidCredentialsException.class,
+                AutorizacaoInvalidaException.class,
                 () -> authService.authenticate(loginRequest)
         );
 

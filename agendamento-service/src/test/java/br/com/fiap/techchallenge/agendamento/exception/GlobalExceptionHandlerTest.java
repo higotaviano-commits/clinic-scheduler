@@ -1,16 +1,10 @@
 package br.com.fiap.techchallenge.agendamento.exception;
 
-import br.com.fiap.techchallenge.agendamento.exception.GlobalExceptionHandler;
-import br.com.fiap.techchallenge.agendamento.exception.InvalidCredentialsException;
-import br.com.fiap.techchallenge.agendamento.exception.EntidadeNaoEncontradaException;
-import br.com.fiap.techchallenge.agendamento.exception.ForbiddenOperationException;
-import br.com.fiap.techchallenge.agendamento.exception.JwtTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +32,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void deveHandlearInvalidCredentialsException() {
-        InvalidCredentialsException ex = new InvalidCredentialsException();
+        AutorizacaoInvalidaException ex = new AutorizacaoInvalidaException();
 
         ProblemDetail result = exceptionHandler.handleInvalidCredentials(ex);
 
@@ -63,7 +57,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void deveHandlearForbiddenOperationException() {
-        ForbiddenOperationException ex = new ForbiddenOperationException("Acesso negado");
+        OperacaoInvalidaException ex = new OperacaoInvalidaException("Acesso negado");
 
         ProblemDetail result = exceptionHandler.handleForbidden(ex);
 
@@ -153,7 +147,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void deveRetornarHttpStatusCorretoParaForbidden() {
-        ForbiddenOperationException ex = new ForbiddenOperationException("Proibido");
+        OperacaoInvalidaException ex = new OperacaoInvalidaException("Proibido");
 
         ProblemDetail result = exceptionHandler.handleForbidden(ex);
 
@@ -162,7 +156,7 @@ class GlobalExceptionHandlerTest {
 
     @Test
     void deveRetornarHttpStatusCorretoParaUnauthorized() {
-        InvalidCredentialsException ex = new InvalidCredentialsException();
+        AutorizacaoInvalidaException ex = new AutorizacaoInvalidaException();
 
         ProblemDetail result = exceptionHandler.handleInvalidCredentials(ex);
 
@@ -182,7 +176,7 @@ class GlobalExceptionHandlerTest {
     void devePossuirTypeUnicoParaCadaExcecao() {
         IllegalArgumentException ex1 = new IllegalArgumentException("Erro");
         EntidadeNaoEncontradaException ex2 = new EntidadeNaoEncontradaException("Erro");
-        ForbiddenOperationException ex3 = new ForbiddenOperationException("Erro");
+        OperacaoInvalidaException ex3 = new OperacaoInvalidaException("Erro");
 
         ProblemDetail result1 = exceptionHandler.handleIllegalArgument(ex1);
         ProblemDetail result2 = exceptionHandler.handleNotFound(ex2);
