@@ -5,148 +5,84 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
-    <!-- ========================================================= -->
-    <!-- SPRING BOOT -->
-    <!-- ========================================================= -->
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.16</version>
         <relativePath/>
     </parent>
-
-    <!-- ========================================================= -->
-    <!-- PROJECT -->
-    <!-- ========================================================= -->
-
     <groupId>br.com.fiap.techchalleger</groupId>
     <artifactId>agendamento-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>agendamento-service</name>
     <description>agendamento-service</description>
-
-    <!-- ========================================================= -->
-    <!-- PROPERTIES -->
-    <!-- ========================================================= -->
-
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Dependências que não são gerenciadas pelo Spring Boot -->
-        <springdoc.version>2.8.13</springdoc.version>
         <jjwt.version>0.13.0</jjwt.version>
         <lombok.version>1.18.48</lombok.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
-
-    <!-- ========================================================= -->
-    <!-- DEPENDENCIES -->
-    <!-- ========================================================= -->
-
     <dependencies>
-
-        <!-- WEB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-        <!-- SECURITY -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-        <!-- RABBITMQ -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
-        <!-- VALIDATION -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
-        <!-- DATABASE - POSTGRES -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- DATABASE - H2 -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- ===================================================== -->
-        <!-- JWT -->
-        <!-- ===================================================== -->
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- ===================================================== -->
-        <!-- SWAGGER / OPENAPI -->
-        <!-- ===================================================== -->
-
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc.version}</version>
+            <version>2.8.17</version>
         </dependency>
-
-        <!-- ===================================================== -->
-        <!-- LOMBOK -->
-        <!-- ===================================================== -->
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- ===================================================== -->
-        <!-- TESTS -->
-        <!-- ===================================================== -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -155,17 +91,8 @@
 
     </dependencies>
 
-    <!-- ========================================================= -->
-    <!-- BUILD -->
-    <!-- ========================================================= -->
-
     <build>
         <plugins>
-
-            <!-- ================================================= -->
-            <!-- SPRING BOOT -->
-            <!-- ================================================= -->
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -179,11 +106,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-
-            <!-- ================================================= -->
-            <!-- MAVEN COMPILER -->
-            <!-- ================================================= -->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -191,9 +113,6 @@
 
                 <configuration>
                     <release>21</release>
-
-                    <!-- Necessário para o Springdoc descobrir nomes -->
-                    <!-- de parâmetros dos controllers -->
                     <parameters>true</parameters>
 
                     <annotationProcessorPaths>
@@ -205,27 +124,18 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
-            <!-- ================================================= -->
-            <!-- JACOCO -->
-            <!-- ================================================= -->
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.15</version>
 
                 <executions>
-
-                    <!-- Instrumentação dos testes -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-
-                    <!-- Geração do relatório -->
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
@@ -233,8 +143,6 @@
                             <goal>report</goal>
                         </goals>
                     </execution>
-
-                    <!-- Validação da cobertura -->
                     <execution>
                         <id>jacoco-check</id>
                         <phase>verify</phase>
@@ -246,7 +154,7 @@
                             <rules>
 
                                 <rule>
-                                    <!-- Avalia o projeto inteiro -->
+
                                     <element>BUNDLE</element>
 
                                     <limits>

@@ -3,15 +3,21 @@ spring:
     name: agendamento-service
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/agendamento
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
 
   jpa:
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 jwt:
   secret: ${JWT_SECRET:bXlTdXBlclNlY3JldEtleUZvckpXVDEyMzQ1Njc4OTA=}
@@ -23,3 +29,4 @@ app:
     routing-key:
       criada: consulta.criada
       atualizada: consulta.atualizada
+

@@ -1,5 +1,6 @@
 package br.com.fiap.techchallenge.agendamento.exception;
 
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -152,6 +153,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGeneric(Exception ex) {
+        System.out.println(ex.getMessage());
         ProblemDetail problem = ProblemDetail
                 .forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor");
         problem.setTitle("Erro interno");
